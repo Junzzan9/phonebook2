@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.javaex.dao.PhoneDao;
+import com.javaex.util.WebUtil;
 import com.javaex.vo.PersonVo;
 
 @WebServlet("/pbc") // 웹주소 변경 가능
@@ -45,15 +46,13 @@ public class PhoneController extends HttpServlet {
 			 */
 
 			// forward == servlet이 html작업을 jsp에게 시킨다.
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/list.jsp");
-			rd.forward(request, response);
+			WebUtil.forward(request, response, "/WEB-INF/list.jsp");
 		}
 
 		else if ("wform".equals(action)) {
 			System.out.println("글쓰기 폼");
 
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/writeForm.jsp");
-			rd.forward(request, response);
+			WebUtil.redirect(request, response, "/WEB-INF/writeForm.jsp");
 		}
 
 		else if ("insert".equals(action)) {
@@ -72,7 +71,7 @@ public class PhoneController extends HttpServlet {
 			pDao.personInsert(pVo);
 
 			// 리다이렉트.
-			response.sendRedirect("/phonebook2/pbc?action=list");
+			WebUtil.redirect(request, response, "/phonebook2/pbc?action=list");
 
 		}
 
@@ -80,14 +79,13 @@ public class PhoneController extends HttpServlet {
 			System.out.println("[수정폼]"); // 확인용
 
 			int no = Integer.parseInt(request.getParameter("id"));
-			
+
 			PhoneDao pDao = new PhoneDao();
 			PersonVo pVo = pDao.getPerson(no);
-			
+
 			System.out.println(no);
 			request.setAttribute("pVo", pVo);
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/updateForm.jsp");
-			rd.forward(request, response);
+			WebUtil.forward(request, response, "/WEB-INF/updateForm.jsp");
 		}
 
 		else if ("update".equals(action)) {
@@ -103,24 +101,23 @@ public class PhoneController extends HttpServlet {
 			// Vo 생성자에 값넣고 sql 테이블수정.
 			PersonVo pVo = new PersonVo(id, name, hp, com);
 			pDao.personUpdate(pVo);
-			
-			//리다이렉트.
-			response.sendRedirect("/phonebook2/pbc?action=list");
+
+			// 리다이렉트.
+			WebUtil.redirect(request, response, "/phonebook2/pbc?action=list");
 		}
-		
+
 		else if ("delete".equals(action)) {
 			// Dao-->저장
 			PhoneDao pDao = new PhoneDao();
 
 			// 파라미터 꺼내기
 			int id = Integer.parseInt(request.getParameter("id"));
-	
 
 			// 삭제메소드에 받은 id값 인트로 변환 후 넣기
 			pDao.personDelete(id);
-			
-			//리다이렉트.
-			response.sendRedirect("/phonebook2/pbc?action=list");
+
+			// 리다이렉트.
+			WebUtil.redirect(request, response,"/phonebook2/pbc?action=list");
 		}
 	}
 
