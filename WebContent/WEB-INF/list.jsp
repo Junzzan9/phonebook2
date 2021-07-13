@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
+<%@ page import="com.javaex.dao.PhoneDao"%>
 <%@ page import="com.javaex.vo.PersonVo"%>
 
 <%
@@ -45,18 +46,8 @@ System.out.println(age + ", " + name);
 			<td><%=personList.get(i).getCompany()%></td>
 		</tr>
 		<tr>
-			<td><form action="/phonebook2/pbc" method="get">
-					<input type="hidden" name="action" value="uform"> 
-					<input type="hidden" name="id" value="<%=personList.get(i).getPersonId()%>">
-					<button type="submit">[수정폼]</button>
-				</form>
-			</td>
-			<td><form action="/phonebook2/pbc" method="get">
-					<input type="hidden" name="action" value="delete"> 
-					<input type="hidden" name="id" value="<%=personList.get(i).getPersonId()%>">
-					<button type="submit">[삭제]</button>
-				</form>
-			</td>
+			<td><a href="/phonebook2/pbc?action=uform&id=<%=personList.get(i).getPersonId() %>">[수정]</a></td>
+			<td><a href="/phonebook2/pbc?action=delete&id=<%=personList.get(i).getPersonId() %>">[삭제]</a></td>
 		</tr>
 	</table>
 	<br>
@@ -64,9 +55,6 @@ System.out.println(age + ", " + name);
 	}
 	%>
 	
-	<form action="/phonebook2/pbc" method="get">
-					<input type="hidden" name="action" value="wform"> 
-					<button type="submit">[신규번호 등록하기]</button> 
-	</form>
+	<a href="/phonebook2/pbc?action=wform">[신규번호 등록하기]</a>
 </body>
 </html>

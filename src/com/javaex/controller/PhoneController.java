@@ -78,12 +78,14 @@ public class PhoneController extends HttpServlet {
 
 		else if ("uform".equals(action)) {
 			System.out.println("[수정폼]"); // 확인용
-			
-			PhoneDao pDao = new PhoneDao(); 
-			List<PersonVo> pList = pDao.getPersonList();
+
 			int no = Integer.parseInt(request.getParameter("id"));
-			request.setAttribute("pVo", pList.get(no));
 			
+			PhoneDao pDao = new PhoneDao();
+			PersonVo pVo = pDao.getPerson(no);
+			
+			System.out.println(no);
+			request.setAttribute("pVo", pVo);
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/updateForm.jsp");
 			rd.forward(request, response);
 		}
